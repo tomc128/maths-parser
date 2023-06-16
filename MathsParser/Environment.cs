@@ -8,6 +8,7 @@ public class Environment
         Variables = variables;
     }
 
+
     public Dictionary<string, Delegate> Functions { get; }
     public Dictionary<string, double> Variables { get; }
 }

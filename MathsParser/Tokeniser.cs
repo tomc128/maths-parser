@@ -48,7 +48,7 @@ public partial class Tokeniser
         return token.Type == TokenType.Whitespace ? Next() : token;
     }
 
-    [GeneratedRegex(@"^[+-]?\d+(?:\.\d+)?(?:[Ee][+-]?\d+(?:\.\d+)?)?")]
+    [GeneratedRegex(@"^-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+(?:\.\d+)?)?")]
     private static partial Regex NumberRegex();
 
     [GeneratedRegex(@"^[a-zA-Z_]\w*")]
