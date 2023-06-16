@@ -2,7 +2,7 @@
 
 public struct Number
 {
-    public const int Precision = 12;
+    public const int Precision = 9;
 
     public double Value { get; }
 
