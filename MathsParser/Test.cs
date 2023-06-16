@@ -33,7 +33,10 @@ public class Test
 
         var inputs = new[]
         {
-            "2^3^4", // TODO: this is executed as (2^3)^4, but should be 2^(3^4)
+            "2^3^4",
+            "4% * 50",
+            "50% * 4",
+            "0.5 * 20%",
         };
 
 

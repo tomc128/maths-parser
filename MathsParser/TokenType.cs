@@ -12,8 +12,9 @@ public enum TokenType
     Multiply,
     Divide,
     Exponent,
+    Percent,
     OpenBracket,
     CloseBracket,
     Abs,
-    Comma
+    Comma,
 }

@@ -125,7 +125,19 @@ public class Parser
         }
 
 
-        if (Match(TokenType.Number)) return new NumberNode(Eat(TokenType.Number));
+        if (Match(TokenType.Number))
+        {
+            var number = Eat(TokenType.Number);
+
+            // check for percent
+            if (Match(TokenType.Percent))
+            {
+                Eat(TokenType.Percent);
+                return new BinaryNode(TokenType.Divide, new NumberNode(number), new NumberNode(100));
+            }
+
+            return new NumberNode(number);
+        }
 
         if (Match(TokenType.Identifier)) return new IdentifierNode(Eat(TokenType.Identifier));
 
