@@ -140,9 +140,20 @@ public class Parser
     {
         var callee = Multiplication();
 
-        // only allow multiplication if the next token is an identifier, else fallback to callee
+        var isMultiplication = false;
+
+        // only allow multiplication if the next token is an identifier and callee is not (this is not a function call)
         if (callee is not IdentifierNode)
-            return Match(TokenType.Identifier) ? new BinaryNode(TokenType.Multiply, callee, Multiplication()) : callee;
+        {
+            // However, if callee is a number and the next token is a bracket, this should be treated as a multiplication
+            if (callee is NumberNode && Match(TokenType.OpenBracket))
+                // So we go to the bracket check below
+                isMultiplication = true;
+            else
+                return Match(TokenType.Identifier)
+                    ? new BinaryNode(TokenType.Multiply, callee, Multiplication())
+                    : callee;
+        }
 
         if (Match(TokenType.Number, TokenType.Identifier)) return new CallNode(callee, new[] { Call() });
 
@@ -151,6 +162,9 @@ public class Parser
             Eat(TokenType.OpenBracket);
             var args = new[] { Expression() };
 
+            if (isMultiplication && Match(TokenType.Comma))
+                throw new Exception("Unexpected comma in implicit bracketed multiplication");
+
             while (Match(TokenType.Comma))
             {
                 Eat(TokenType.Comma);
@@ -158,7 +172,11 @@ public class Parser
             }
 
             Eat(TokenType.CloseBracket);
-            return new CallNode(callee, args);
+
+            // return new CallNode(callee, args);
+            return isMultiplication
+                ? new BinaryNode(TokenType.Multiply, callee, args[0])
+                : new CallNode(callee, args);
         }
 
         return callee;
