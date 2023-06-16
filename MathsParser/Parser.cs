@@ -3,24 +3,25 @@
 public class Parser
 {
     private readonly Tokeniser tokeniser;
-    private dynamic lookahead;
+    private Token lookahead;
 
     public Parser()
     {
         tokeniser = new Tokeniser();
     }
 
-    public void Read(string input)
+    public Node Read(string input)
     {
         tokeniser.Read(input);
         lookahead = tokeniser.Next();
+        return Expression();
     }
 
     private Token Eat(TokenType type)
     {
         var token = lookahead;
 
-        if (token is null) throw new Exception($"Unexpected end of input, expected {type}");
+        // if (token is null) throw new Exception($"Unexpected end of input, expected {type}");
 
         if (token.Type != type) throw new Exception($"Unexpected token {token}, expected {type}");
 
@@ -31,7 +32,7 @@ public class Parser
 
     private bool Match(TokenType type)
     {
-        if (lookahead is null) return false;
+        // if (lookahead is null) return false;
         if (lookahead.Type != type) return false;
         return true;
     }
@@ -50,7 +51,8 @@ public class Parser
     {
         var left = Call();
 
-        while (Match(TokenType.Add, TokenType.Subtract)) left = new BinaryNode(Eat(lookahead.Type), left, Call());
+        while (Match(TokenType.Add, TokenType.Subtract))
+            left = new BinaryNode(Eat(lookahead.Type).Type, left, Call());
 
         return left;
     }
@@ -60,7 +62,7 @@ public class Parser
         var left = Exponentiation();
 
         while (Match(TokenType.Multiply, TokenType.Divide))
-            left = new BinaryNode(Eat(lookahead.Type), left, Exponentiation());
+            left = new BinaryNode(Eat(lookahead.Type).Type, left, Exponentiation());
 
         return left;
     }
@@ -70,7 +72,7 @@ public class Parser
         var left = Basic();
 
         while (Match(TokenType.Exponent))
-            left = new BinaryNode(Eat(lookahead.Type), left, Basic());
+            left = new BinaryNode(Eat(lookahead.Type).Type, left, Basic());
 
         return left;
     }

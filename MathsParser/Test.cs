@@ -4,15 +4,22 @@ public class Test
 {
     public static void Main()
     {
-        var tokeniser = new Tokeniser();
-        tokeniser.Read("1 + 2");
+        var parser = new Parser();
 
-
-        while (true)
+        var inputs = new[]
         {
-            var token = tokeniser.Next();
-            if (token.Type == TokenType.End) break;
-            Console.WriteLine(token);
+            "1+2",
+            "3 + 4",
+            "7 * 8 + 9",
+            "(8 + 2) *11",
+            "1 + 3/4",
+            "(1+3) / 4"
+        };
+
+        foreach (var input in inputs)
+        {
+            var node = parser.Read(input);
+            Console.WriteLine($"{input} -> {node}");
         }
     }
 }

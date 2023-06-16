@@ -19,6 +19,11 @@ internal class BinaryNode : Node
     public Node Left { get; }
     public Node Right { get; }
     public TokenType Operator { get; }
+
+    public override string ToString()
+    {
+        return $"({Left} {Operator} {Right})";
+    }
 }
 
 internal class CallNode : Node
@@ -33,6 +38,12 @@ internal class CallNode : Node
 
     public Node Function { get; }
     public Node[] Arguments { get; }
+
+    public override string ToString()
+    {
+        var argsString = string.Join(", ", (object[])Arguments);
+        return $"{Function}({argsString})";
+    }
 }
 
 internal class NumberNode : Node
@@ -45,6 +56,11 @@ internal class NumberNode : Node
     public override NodeType Type => NodeType.Number;
 
     public double Value { get; }
+
+    public override string ToString()
+    {
+        return Value.ToString();
+    }
 }
 
 internal class IdentifierNode : Node
@@ -57,6 +73,11 @@ internal class IdentifierNode : Node
     public override NodeType Type => NodeType.Identifier;
 
     public string Value { get; }
+
+    public override string ToString()
+    {
+        return Value;
+    }
 }
 
 internal class ExpressionNode : Node
@@ -69,4 +90,9 @@ internal class ExpressionNode : Node
     public override NodeType Type => NodeType.Expression;
 
     public string Expression { get; }
+
+    public override string ToString()
+    {
+        return $"\"{Expression}\"";
+    }
 }
