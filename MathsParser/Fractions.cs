@@ -2,6 +2,11 @@
 
 public static class Fractions
 {
+    public static bool CanBeSimplified(double numerator, double denominator)
+    {
+        return GCD(numerator, denominator) != 1;
+    }
+
     public static (int numerator, int denominator) Simplified(double numerator, double denominator)
     {
         var gcd = GCD(numerator, denominator);
