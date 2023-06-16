@@ -2,7 +2,7 @@
 
 public static class Fractions
 {
-    public static Fraction Simplify(double numerator, double denominator)
+    public static Fraction Simplified(double numerator, double denominator)
     {
         var gcd = GCD(numerator, denominator);
         return new Fraction(numerator / gcd, denominator / gcd);
@@ -26,10 +26,9 @@ public static class Fractions
     }
 
     // Code based on https://stackoverflow.com/a/5128558
-    public static Fraction FromDouble(double value, double error = 8, double cancel = 7)
+    public static Fraction FromDouble(double value, double error = 12, double maxDenominator = 1_000_000)
     {
         error = Math.Pow(10, -error);
-        cancel = Math.Pow(10, -cancel);
 
         var floor = Math.Floor(value);
         value -= floor;
@@ -42,6 +41,8 @@ public static class Fractions
 
         var upperNumerator = 1.0;
         var upperDenominator = 1.0;
+
+        var i = 0;
 
         while (true)
         {
@@ -60,8 +61,17 @@ public static class Fractions
             }
             else
             {
+                // The fraction has too large of a denominator, return the decimal value
+                if (middleDenominator > maxDenominator) return new Fraction(floor + value, 1);
+
+                // Return the fraction
                 return new Fraction(floor * middleDenominator + middleNumerator, middleDenominator);
             }
+
+            i++;
+
+            // Add a check to break the loop if it doesn't converge after a certain number of iterations
+            if (i >= 1000) return new Fraction(floor + value, 1);
         }
     }
 }

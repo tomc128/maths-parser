@@ -15,19 +15,10 @@ public class Test
 
         var inputs = new[]
         {
-            "1+2",
-            "3 + 4",
-            "7 * 8 + 9",
-            "(8 + 2) *11",
-            "1 + 3/4",
-            "(1+3) / 4",
-            "2^3 + 1",
-            "3 * {2 + (1 / 3)}",
-            "-3 + 2",
-            "2 + 1",
+            "1+2.5",
+            "2.5+3",
+            "1.25*3",
             "sin(2)"
-            // "sin pi",
-            // "sin 2 pi",
             // "sigma(\"2x + 1\", 1, 10)" // TODO: 1 and 10 do not show up in the output
             // TODO: allow for +1 to be a valid number
         };
@@ -36,10 +27,9 @@ public class Test
         {
             var node = parser.Read(input);
             Console.WriteLine($"{input} -> [{node.Type}] {node}");
-            var result = node.Evaluate(environment);
-            var fraction = Fractions.FromDouble(result);
+            var result = new Number(node.Evaluate(environment));
 
-            Console.WriteLine($"= {result} = {fraction}");
+            Console.WriteLine($"= {result}");
 
             Console.WriteLine();
         }
