@@ -47,35 +47,34 @@ public partial class Tokeniser
         return token.Type == TokenType.Whitespace ? Next() : token;
     }
 
-
     [GeneratedRegex(@"^-?\d+(?:\.\d+)?")]
     private static partial Regex NumberRegex();
 
-    [GeneratedRegex("^[a-zA-Z_]\\w*")]
+    [GeneratedRegex(@"^[a-zA-Z_]\w*")]
     private static partial Regex IdentifierRegex();
 
-    [GeneratedRegex("^\"[^\"]*\"")]
+    [GeneratedRegex("""^"[^"]*" """)]
     private static partial Regex StringRegex();
 
-    [GeneratedRegex("^\\+")]
+    [GeneratedRegex(@"^\+")]
     private static partial Regex AddRegex();
 
     [GeneratedRegex("^-")]
     private static partial Regex SubtractRegex();
 
-    [GeneratedRegex("^\\*")]
+    [GeneratedRegex(@"^\*")]
     private static partial Regex MultiplyRegex();
 
     [GeneratedRegex("^/")]
     private static partial Regex DivideRegex();
 
-    [GeneratedRegex("^\\^")]
+    [GeneratedRegex(@"^\^")]
     private static partial Regex ExponentRegex();
 
-    [GeneratedRegex("^[\\(\\[\\{]")]
+    [GeneratedRegex(@"^[\(\[\{]")]
     private static partial Regex OpenBracketRegex();
 
-    [GeneratedRegex("^[\\)\\]\\}]")]
+    [GeneratedRegex(@"^[\)\]\}]")]
     private static partial Regex CloseBracketRegex();
 
     [GeneratedRegex(@"^\|")]
