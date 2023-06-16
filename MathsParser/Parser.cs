@@ -2,8 +2,8 @@
 
 public class Parser
 {
-    private dynamic lookahead;
     private readonly Tokeniser tokeniser;
+    private dynamic lookahead;
 
     public Parser()
     {
@@ -28,11 +28,54 @@ public class Parser
 
         return token;
     }
-    
+
     private bool Match(TokenType type)
     {
         if (lookahead is null) return false;
         if (lookahead.Type != type) return false;
         return true;
     }
+
+    private bool Match(params TokenType[] types)
+    {
+        return types.Any(Match);
+    }
+
+    private Node Expression()
+    {
+        return Addition();
+    }
+
+    private Node Addition()
+    {
+        var left = Call();
+
+        while (Match(TokenType.Add, TokenType.Subtract)) left = new BinaryNode(Eat(lookahead.Type), left, Call());
+
+        return left;
+    }
+
+    private Node Multiplication()
+    {
+        var left = Exponentiation();
+
+        while (Match(TokenType.Multiply, TokenType.Divide))
+            left = new BinaryNode(Eat(lookahead.Type), left, Exponentiation());
+
+        return left;
+    }
+
+    private Node Exponentiation()
+    {
+        var left = Basic();
+
+        while (Match(TokenType.Exponent))
+            left = new BinaryNode(Eat(lookahead.Type), left, Basic());
+
+        return left;
+    }
+
+    private Node Basic();
+
+    private Node Call();
 }
