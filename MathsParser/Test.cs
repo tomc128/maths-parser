@@ -13,13 +13,17 @@ public class Test
             "7 * 8 + 9",
             "(8 + 2) *11",
             "1 + 3/4",
-            "(1+3) / 4"
+            "(1+3) / 4",
+            "sin(2)",
+            "sin pi",
+            "sin 2 pi",
+            "sigma(\"2x + 1\", 1, 10)" // TODO: 1 and 10 do not show up in the output
         };
 
         foreach (var input in inputs)
         {
             var node = parser.Read(input);
-            Console.WriteLine($"{input} -> {node}");
+            Console.WriteLine($"{input} -> [{node.Type}] {node}");
         }
     }
 }

@@ -3,6 +3,8 @@
 public abstract class Node
 {
     public abstract NodeType Type { get; }
+
+    public abstract double Evaluate(dynamic environment = null);
 }
 
 internal class BinaryNode : Node
@@ -24,6 +26,22 @@ internal class BinaryNode : Node
     {
         return $"({Left} {Operator} {Right})";
     }
+
+    public override double Evaluate(dynamic environment = null)
+    {
+        var left = Left.Evaluate();
+        var right = Right.Evaluate();
+
+        return Operator switch
+        {
+            TokenType.Add => left + right,
+            TokenType.Subtract => left - right,
+            TokenType.Multiply => left * right,
+            TokenType.Divide => left / right,
+            TokenType.Exponent => Math.Pow(left, right),
+            _ => throw new Exception($"Unexpected operator {Operator}")
+        };
+    }
 }
 
 internal class CallNode : Node
@@ -41,8 +59,17 @@ internal class CallNode : Node
 
     public override string ToString()
     {
-        var argsString = string.Join(", ", (object[])Arguments);
+        var args = "";
+        foreach (var arg in Arguments) args += $"{arg}, ";
+        var argsString = args.Length > 0 ? args[..^2] : "";
         return $"{Function}({argsString})";
+    }
+
+    public override double Evaluate(dynamic environment = null)
+    {
+        // get function from environment
+        var args = Arguments.Select(arg => arg.Evaluate(environment)).ToArray();
+        return Function.Evaluate(environment)(args); // Should be the function from the environment?
     }
 }
 
@@ -61,6 +88,11 @@ internal class NumberNode : Node
     {
         return Value.ToString();
     }
+
+    public override double Evaluate(dynamic environment = null)
+    {
+        return Value;
+    }
 }
 
 internal class IdentifierNode : Node
@@ -78,6 +110,11 @@ internal class IdentifierNode : Node
     {
         return Value;
     }
+
+    public override double Evaluate(dynamic environment = null)
+    {
+        return environment[Value];
+    }
 }
 
 internal class ExpressionNode : Node
@@ -94,5 +131,10 @@ internal class ExpressionNode : Node
     public override string ToString()
     {
         return $"\"{Expression}\"";
+    }
+
+    public override double Evaluate(dynamic environment = null)
+    {
+        return new Parser().Read(Expression).Evaluate(environment);
     }
 }
