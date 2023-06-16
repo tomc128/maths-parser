@@ -47,7 +47,7 @@ public partial class Tokeniser
     }
 
 
-    [GeneratedRegex("^\\d+(\\.\\d+)?")]
+    [GeneratedRegex(@"^-?\d+(?:\.\d+)?")]
     private static partial Regex NumberRegex();
 
     [GeneratedRegex("^[a-zA-Z_]\\w*")]
