@@ -22,6 +22,7 @@ public class Test
         var variables = new Dictionary<string, double>
         {
             { "pi", Math.PI },
+            { "π", Math.PI },
             { "e", Math.E },
         };
 
@@ -31,25 +32,29 @@ public class Test
 
         var inputs = new[]
         {
-            "2 * 1",
-            "ln e^2",
-            "sin 2*pi",
-            "2^3",
-            "2²",
+            "3 pi",
+            "2pi",
+            "sin 2pi",
+            "2 * 2",
+            "ln e³",
 
             // "clamp(4, 2, 3)", // TODO: 2 and 3 are not parsed
             // TODO "3 2" should not be valid, but "3 pi" should be. related below
             // TODO "3(2)" should be parsed as "3 * 2", this should also work with "3(pi)" and better yet, "3pi"
         };
 
+        var compact = true;
+
         foreach (var input in inputs)
         {
             var node = parser.Read(input);
-            Console.WriteLine($"{input} -> {node} [root:{node.Type}]");
             var result = new Number(node.Evaluate(environment));
 
-            Console.WriteLine($"= {result.AsDecimal()} = {result}");
-            Console.WriteLine();
+            var output = compact
+                ? $"{input} -> {node} = {result.AsDecimal()} = {result}"
+                : $"{input} -> {node} [root:{node.Type}]\n= {result.AsDecimal()} = {result}\n";
+
+            Console.WriteLine(output);
         }
     }
 }

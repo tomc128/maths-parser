@@ -34,7 +34,6 @@ public class Parser
 
     private bool Match(TokenType type)
     {
-        // if (lookahead is null) return false;
         if (lookahead.Type != type) return false;
         return true;
     }
@@ -141,7 +140,9 @@ public class Parser
     {
         var callee = Multiplication();
 
-        if (callee is not IdentifierNode) return callee;
+        // only allow multiplication if the next token is an identifier, else fallback to callee
+        if (callee is not IdentifierNode)
+            return Match(TokenType.Identifier) ? new BinaryNode(TokenType.Multiply, callee, Multiplication()) : callee;
 
         if (Match(TokenType.Number, TokenType.Identifier)) return new CallNode(callee, new[] { Call() });
 
