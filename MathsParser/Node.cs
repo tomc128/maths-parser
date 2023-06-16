@@ -69,7 +69,22 @@ internal class CallNode : Node
     {
         var function = environment[Function.ToString()];
         var args = Arguments.Select(arg => arg.Evaluate(environment)).ToArray();
-        return function(args);
+
+        switch (args.Length)
+        {
+            case 0:
+                return function();
+            case 1:
+                return function(args[0]);
+            case 2:
+                return function(args[0], args[1]);
+            case 3:
+                return function(args[0], args[1], args[2]);
+            case 4:
+                return function(args[0], args[1], args[2], args[3]);
+            default:
+                throw new Exception("Too many arguments. Current limit is 4.");
+        }
     }
 }
 
