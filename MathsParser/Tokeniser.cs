@@ -4,20 +4,20 @@ namespace MathsParser;
 
 public partial class Tokeniser
 {
-    private int index;
-    private string input;
+    private int _index;
+    private string _input;
 
     public void Read(string input)
     {
-        this.input = input;
-        index = 0;
+        _input = input;
+        _index = 0;
     }
 
     public Token Next()
     {
-        if (index >= input.Length) return new Token(TokenType.End, null);
+        if (_index >= _input.Length) return new Token(TokenType.End, null);
 
-        var substring = input[index..];
+        var substring = _input[_index..];
 
         var token = substring switch
         {
@@ -32,18 +32,18 @@ public partial class Tokeniser
             _ when MultiplyRegex().IsMatch(substring) => new Token(TokenType.Multiply, "*"),
             _ when DivideRegex().IsMatch(substring) => new Token(TokenType.Divide, "/"),
             _ when ExponentRegex().IsMatch(substring) => new Token(TokenType.Exponent, "^"),
-            _ when OpenBracketRegex().IsMatch(substring) => new Token(TokenType.OpenBracket, "("),
-            _ when CloseBracketRegex().IsMatch(substring) => new Token(TokenType.CloseBracket, ")"),
+            _ when OpenBracketRegex().IsMatch(substring) => new Token(TokenType.OpenBracket,
+                OpenBracketRegex().Match(substring).Value),
+            _ when CloseBracketRegex().IsMatch(substring) => new Token(TokenType.CloseBracket,
+                CloseBracketRegex().Match(substring).Value),
             _ when CommaRegex().IsMatch(substring) => new Token(TokenType.Comma, ","),
-            _ when char.IsWhiteSpace(substring[0]) => new Token(TokenType.Whitespace, substring[0].ToString()),
-            _ => throw new Exception($"Unexpected character '{substring[0]}' at index {index}")
+            _ when char.IsWhiteSpace(substring[0]) => new Token(TokenType.Whitespace, " "),
+            _ => throw new Exception($"Unexpected character '{substring[0]}' at index {_index}")
         };
 
-        if (token.Value != null) index += token.Value.Length;
+        if (token.Value != null) _index += token.Value.Length;
 
-        if (token.Type == TokenType.Whitespace) return Next();
-
-        return token;
+        return token.Type == TokenType.Whitespace ? Next() : token;
     }
 
 
