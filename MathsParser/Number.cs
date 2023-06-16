@@ -3,19 +3,24 @@
 public struct Number
 {
     public double Value { get; }
-    public Fraction Fraction { get; }
 
-    public bool IsInteger => Value % 1 == 0;
+    public int Numerator { get; }
+    public int Denominator { get; }
+
+    public bool DisplayAsFraction => Denominator != 1;
 
 
     public Number(double value)
     {
         Value = value;
-        Fraction = Fractions.FromDouble(value);
+
+        var fraction = Fractions.FromDouble(value);
+        Numerator = fraction.numerator;
+        Denominator = fraction.denominator;
     }
 
     public override string ToString()
     {
-        return Fraction.Denominator == 1 ? Value.ToString() : Fraction.ToString();
+        return DisplayAsFraction ? $"{Numerator}/{Denominator}" : Value.ToString();
     }
 }

@@ -2,10 +2,10 @@
 
 public static class Fractions
 {
-    public static Fraction Simplified(double numerator, double denominator)
+    public static (int numerator, int denominator) Simplified(double numerator, double denominator)
     {
         var gcd = GCD(numerator, denominator);
-        return new Fraction(numerator / gcd, denominator / gcd);
+        return ((int)(numerator / gcd), (int)(denominator / gcd));
     }
 
     public static double GCD(double a, double b)
@@ -26,15 +26,16 @@ public static class Fractions
     }
 
     // Code based on https://stackoverflow.com/a/5128558
-    public static Fraction FromDouble(double value, double error = 12, double maxDenominator = 1_000_000)
+    public static (int numerator, int denominator) FromDouble(double value, double error = 12,
+        double maxDenominator = 1_000_000)
     {
         error = Math.Pow(10, -error);
 
-        var floor = Math.Floor(value);
+        var floor = (int)Math.Floor(value);
         value -= floor;
 
-        if (value < error) return new Fraction(floor, 1);
-        if (1 - error < value) return new Fraction(floor + 1, 1);
+        if (value < error) return (floor, 1);
+        if (1 - error < value) return (floor + 1, 1);
 
         var lowerNumerator = 0.0;
         var lowerDenominator = 1.0;
@@ -62,16 +63,16 @@ public static class Fractions
             else
             {
                 // The fraction has too large of a denominator, return the decimal value
-                if (middleDenominator > maxDenominator) return new Fraction(floor + value, 1);
+                if (middleDenominator > maxDenominator) return ((int)(floor + value), 1);
 
                 // Return the fraction
-                return new Fraction(floor * middleDenominator + middleNumerator, middleDenominator);
+                return ((int)(floor * middleDenominator + middleNumerator), (int)middleDenominator);
             }
 
             i++;
 
             // Add a check to break the loop if it doesn't converge after a certain number of iterations
-            if (i >= 1000) return new Fraction(floor + value, 1);
+            if (i >= 1000) return ((int)(floor + value), 1);
         }
     }
 }
