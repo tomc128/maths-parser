@@ -88,6 +88,15 @@ public class Parser
             return expression;
         }
 
+        if (Match(TokenType.Abs))
+        {
+            Eat(TokenType.Abs);
+            var expression = Expression();
+            Eat(TokenType.Abs);
+
+            return new AbsNode(expression);
+        }
+
         if (Match(TokenType.Number)) return new NumberNode(Eat(TokenType.Number));
 
         if (Match(TokenType.Identifier)) return new IdentifierNode(Eat(TokenType.Identifier));

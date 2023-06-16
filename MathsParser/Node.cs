@@ -164,3 +164,25 @@ internal class ExpressionNode : Node
         return new Parser().Read(Expression).Evaluate(environment);
     }
 }
+
+internal class AbsNode : Node
+{
+    public AbsNode(Node expression)
+    {
+        Expression = expression;
+    }
+
+    public override NodeType Type => NodeType.Abs;
+
+    public Node Expression { get; }
+
+    public override string ToString()
+    {
+        return $"|{Expression}|";
+    }
+
+    public override double Evaluate(Environment environment = null)
+    {
+        return Math.Abs(Expression.Evaluate(environment));
+    }
+}

@@ -29,7 +29,8 @@ public class Test
             "sin(pi)",
             "sin pi/2",
             "cos 0",
-            "asin sin pi" // TODO: check
+            "asin sin pi", // TODO: check
+            "|-1|"
 
 
             // "sigma(\"2x + 1\", 1, 10)" // TODO: 1 and 10 do not show up in the output

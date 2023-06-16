@@ -14,5 +14,6 @@ public enum TokenType
     Exponent,
     OpenBracket,
     CloseBracket,
+    Abs,
     Comma
 }
