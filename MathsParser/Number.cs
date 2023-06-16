@@ -26,10 +26,12 @@ public struct Number
 
     public override string ToString()
     {
+        if (DisplayAsFraction) return $"{Numerator}/{Denominator}";
+
         // Remove out-of-range precision
         var rounded = Math.Round(Value, Precision);
-
-        return DisplayAsFraction ? $"{Numerator}/{Denominator}" : $"{rounded}";
+        if (rounded == -0) rounded = 0;
+        return $"{rounded}";
     }
 
     public string AsDecimal()

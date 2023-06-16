@@ -33,8 +33,12 @@ public class Test
         {
             "2 * 1",
             "ln e^2",
+            "sin 2*pi",
+            "2^3",
+            "2²",
+
             // "clamp(4, 2, 3)", // TODO: 2 and 3 are not parsed
-            // TODO "3 2" should not be valid
+            // TODO "3 2" should not be valid, but "3 pi" should be. related below
             // TODO "3(2)" should be parsed as "3 * 2", this should also work with "3(pi)" and better yet, "3pi"
         };
 

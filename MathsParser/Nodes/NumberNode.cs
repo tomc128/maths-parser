@@ -7,6 +7,11 @@ internal class NumberNode : Node
         Value = double.Parse(token.Value);
     }
 
+    public NumberNode(double value)
+    {
+        Value = value;
+    }
+
     public override NodeType Type => NodeType.Number;
 
     public double Value { get; }

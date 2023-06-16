@@ -31,7 +31,8 @@ public partial class Tokeniser
             _ when SubtractRegex().IsMatch(substring) => new Token(TokenType.Subtract, "-"),
             _ when MultiplyRegex().IsMatch(substring) => new Token(TokenType.Multiply, "*"),
             _ when DivideRegex().IsMatch(substring) => new Token(TokenType.Divide, "/"),
-            _ when ExponentRegex().IsMatch(substring) => new Token(TokenType.Exponent, "^"),
+            _ when ExponentRegex().IsMatch(substring) =>
+                new Token(TokenType.Exponent, ExponentRegex().Match(substring).Value),
             _ when OpenBracketRegex().IsMatch(substring) => new Token(TokenType.OpenBracket,
                 OpenBracketRegex().Match(substring).Value),
             _ when CloseBracketRegex().IsMatch(substring) => new Token(TokenType.CloseBracket,
@@ -39,7 +40,7 @@ public partial class Tokeniser
             _ when AbsRegex().IsMatch(substring) => new Token(TokenType.Abs, "|"),
             _ when CommaRegex().IsMatch(substring) => new Token(TokenType.Comma, ","),
             _ when char.IsWhiteSpace(substring[0]) => new Token(TokenType.Whitespace, " "),
-            _ => throw new Exception($"Unexpected character '{substring[0]}' at index {_index}")
+            _ => throw new Exception($"Unexpected character '{substring[0]}' at index {_index}"),
         };
 
         if (token.Value != null) _index += token.Value.Length;
@@ -68,7 +69,7 @@ public partial class Tokeniser
     [GeneratedRegex("^/")]
     private static partial Regex DivideRegex();
 
-    [GeneratedRegex(@"^\^")]
+    [GeneratedRegex(@"^[\^⁰¹²³⁴⁵⁶⁷⁸⁹]")]
     private static partial Regex ExponentRegex();
 
     [GeneratedRegex(@"^[\(\[\{]")]

@@ -74,7 +74,27 @@ public class Parser
         var left = Basic();
 
         while (Match(TokenType.Exponent))
-            left = new BinaryNode(Eat(lookahead.Type).Type, left, Basic());
+        {
+            var next = Eat(lookahead.Type);
+
+            if (next.Value == "^")
+                left = new BinaryNode(next.Type, left, Basic());
+            else
+                left = next.Value switch
+                {
+                    "⁰" => new BinaryNode(next.Type, left, new NumberNode(0)),
+                    "¹" => new BinaryNode(next.Type, left, new NumberNode(1)),
+                    "²" => new BinaryNode(next.Type, left, new NumberNode(2)),
+                    "³" => new BinaryNode(next.Type, left, new NumberNode(3)),
+                    "⁴" => new BinaryNode(next.Type, left, new NumberNode(4)),
+                    "⁵" => new BinaryNode(next.Type, left, new NumberNode(5)),
+                    "⁶" => new BinaryNode(next.Type, left, new NumberNode(6)),
+                    "⁷" => new BinaryNode(next.Type, left, new NumberNode(7)),
+                    "⁸" => new BinaryNode(next.Type, left, new NumberNode(8)),
+                    "⁹" => new BinaryNode(next.Type, left, new NumberNode(9)),
+                    _ => throw new Exception("Invalid exponent value"),
+                };
+        }
 
         return left;
     }
