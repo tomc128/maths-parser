@@ -67,9 +67,9 @@ internal class CallNode : Node
 
     public override double Evaluate(dynamic environment = null)
     {
-        // get function from environment
+        var function = environment[Function.ToString()];
         var args = Arguments.Select(arg => arg.Evaluate(environment)).ToArray();
-        return Function.Evaluate(environment)(args); // Should be the function from the environment?
+        return function(args);
     }
 }
 
