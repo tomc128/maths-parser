@@ -21,3 +21,16 @@ internal class BinaryNode : Node
     public TokenType Operator { get; }
 }
 
+internal class CallNode : Node
+{
+    public CallNode(Node function, Node[] arguments)
+    {
+        Function = function;
+        Arguments = arguments;
+    }
+
+    public override NodeType Type => NodeType.Call;
+
+    public Node Function { get; }
+    public Node[] Arguments { get; }
+}

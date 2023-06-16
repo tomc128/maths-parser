@@ -77,5 +77,27 @@ public class Parser
 
     private Node Basic();
 
-    private Node Call();
+    private Node Call()
+    {
+        var callee = Multiplication();
+
+        if (Match(TokenType.Number, TokenType.Identifier)) return new CallNode(callee, new[] { Call() });
+
+        if (Match(TokenType.OpenBracket))
+        {
+            Eat(TokenType.OpenBracket);
+            var args = new[] { Expression() };
+
+            while (Match(TokenType.Comma))
+            {
+                Eat(TokenType.Comma);
+                args.Append(Expression());
+            }
+
+            Eat(TokenType.CloseBracket);
+            return new CallNode(callee, args);
+        }
+
+        return callee;
+    }
 }
