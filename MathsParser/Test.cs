@@ -32,14 +32,14 @@ public class Test
             // "cos 0",
             // "asin sin pi", // TODO: check
             // "-2 * 3 + |-12 / 2|",
-            "-1 + 1",
-            "+2 - 2",
-            "2 - -2",
-            "3e2 + 1",
-            "4.2e-2 + 2",
-            "-4e+3"
-            // "3 * pi",
-            // "3pi"
+            // "-1 + 1",
+            // "+2 - 2",
+            // "2 - -2",
+            // "3e2 + 1",
+            // "4.2e-2 + 2",
+            // "-4e+3",
+            "3 * pi",
+            "3pi"
 
 
             // "3 2",
@@ -54,10 +54,10 @@ public class Test
         foreach (var input in inputs)
         {
             var node = parser.Read(input);
-            Console.WriteLine($"{input} -> [{node.Type}] {node}");
+            Console.WriteLine($"{input} -> {node} [root:{node.Type}]");
             var result = new Number(node.Evaluate(environment));
 
-            Console.WriteLine($"= {result}");
+            Console.WriteLine($"= {result.AsDecimal()} = {result}");
 
             Console.WriteLine();
         }

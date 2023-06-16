@@ -1,4 +1,6 @@
-﻿namespace MathsParser;
+﻿using MathsParser.Nodes;
+
+namespace MathsParser;
 
 public class Parser
 {

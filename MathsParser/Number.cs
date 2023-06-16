@@ -31,4 +31,9 @@ public struct Number
 
         return DisplayAsFraction ? $"{Numerator}/{Denominator}" : $"{rounded}";
     }
+
+    public string AsDecimal()
+    {
+        return $"{Value}";
+    }
 }
