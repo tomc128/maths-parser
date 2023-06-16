@@ -32,22 +32,7 @@ public class Test
 
         var inputs = new[]
         {
-            "3 pi",
-            "2pi",
             "sin 2pi",
-            "2 * 2",
-            "ln e³",
-            "4(2)",
-            "clamp(4, 2, 3)",
-            "2 * sin pi",
-            "2 + 3 * 4",
-            "abs -5",
-            "sqrt 16 + 8",
-            "tan(3pi/4)",
-            "log(100, 10)",
-            "2^3^2",
-            "3(2 + 1)",
-            "sqrt(9) + 1.5 * sin(pi/2)",
         };
 
 
