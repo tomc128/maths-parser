@@ -11,8 +11,8 @@ public class Test
         while (true)
         {
             var token = tokeniser.Next();
-            Console.WriteLine(token);
             if (token.Type == TokenType.End) break;
+            Console.WriteLine(token);
         }
     }
 }
