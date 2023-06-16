@@ -12,12 +12,17 @@ public class Test
             { "asin", Math.Asin },
             { "acos", Math.Acos },
             { "atan", Math.Atan },
-            { "abs", new Func<double, double>(Math.Abs) } // Must be double not decimal
+            { "abs", new Func<double, double>(Math.Abs) },
+            { "sqrt", Math.Sqrt },
+            { "clamp", new Func<double, double, double, double>(Math.Clamp) },
+            { "log", new Func<double, double, double>(Math.Log) },
+            { "ln", new Func<double, double>(x => Math.Log(x, Math.E)) },
         };
+
         var variables = new Dictionary<string, double>
         {
             { "pi", Math.PI },
-            { "e", Math.E }
+            { "e", Math.E },
         };
 
         var environment = new Environment(functions, variables);
@@ -26,29 +31,11 @@ public class Test
 
         var inputs = new[]
         {
-            // "1+2.5",
-            // "sin(pi)",
-            // "sin pi/2",
-            // "cos 0",
-            // "asin sin pi", // TODO: check
-            // "-2 * 3 + |-12 / 2|",
-            // "-1 + 1",
-            // "+2 - 2",
-            // "2 - -2",
-            // "3e2 + 1",
-            // "4.2e-2 + 2",
-            // "-4e+3",
-            "3 * pi",
-            "3pi"
-
-
-            // "3 2",
-            // "3x+4"
-
+            "2 * 1",
+            "ln e^2",
+            // "clamp(4, 2, 3)", // TODO: 2 and 3 are not parsed
             // TODO "3 2" should not be valid
             // TODO "3(2)" should be parsed as "3 * 2", this should also work with "3(pi)" and better yet, "3pi"
-            // "sigma(\"2x + 1\", 1, 10)" // TODO: 1 and 10 do not show up in the output
-            // TODO: allow for +1 to be a valid number
         };
 
         foreach (var input in inputs)
@@ -58,7 +45,6 @@ public class Test
             var result = new Number(node.Evaluate(environment));
 
             Console.WriteLine($"= {result.AsDecimal()} = {result}");
-
             Console.WriteLine();
         }
     }

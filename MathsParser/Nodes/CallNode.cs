@@ -36,7 +36,7 @@ internal class CallNode : Node
         var methodParams = function.Method.GetParameters();
         if (methodParams.Length != argCount)
             throw new Exception(
-                $"Invalid argument count for function {functionName}. Expected {argCount} argument(s).");
+                $"Invalid argument count for function {functionName}. Expected {methodParams.Length} argument(s), got {argCount}.");
 
         var convertedArgs = methodParams.Zip(args, (param, arg) => Convert.ChangeType(arg, param.ParameterType))
             .ToArray();
