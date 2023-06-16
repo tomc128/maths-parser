@@ -30,6 +30,10 @@ public class ParserTests
             { "pi", Math.PI },
             { "π", Math.PI },
             { "e", Math.E },
+
+            // x and y are given as sample variables
+            { "x", 2 },
+            { "y", 3 },
         };
 
         _environment = new Environment(functions, variables);
@@ -74,6 +78,8 @@ public class ParserTests
     [TestCase("log(0, 10)", double.NegativeInfinity)]
     [TestCase("1 / 0", double.PositiveInfinity)]
     [TestCase("sqrt(-1)", double.NaN)]
+    [TestCase("2x+2", 6)]
+    [TestCase("y^2+3", 12)]
     public void TestExpression(string input, double expected)
     {
         var result = _parser.Read(input).Evaluate(_environment);
