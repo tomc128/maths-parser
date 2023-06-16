@@ -36,7 +36,10 @@ public class Test
         {
             var node = parser.Read(input);
             Console.WriteLine($"{input} -> [{node.Type}] {node}");
-            Console.WriteLine($"  = {node.Evaluate(environment)}");
+            var result = node.Evaluate(environment);
+            var fraction = Fractions.FromDouble(result);
+
+            Console.WriteLine($"= {result} = {fraction}");
 
             Console.WriteLine();
         }
