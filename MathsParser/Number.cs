@@ -19,8 +19,5 @@ public struct Number
         Denominator = fraction.denominator;
     }
 
-    public override string ToString()
-    {
-        return DisplayAsFraction ? $"{Numerator}/{Denominator}" : Value.ToString();
-    }
+    public override string ToString() => DisplayAsFraction ? $"{Numerator}/{Denominator}" : Value.ToString();
 }
