@@ -2,7 +2,7 @@
 
 public enum TokenType
 {
-    Null,
+    End,
     Number,
     Identifier,
     String,
