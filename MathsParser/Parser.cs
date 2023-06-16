@@ -147,11 +147,18 @@ public class Parser
             // However, if callee is a number and the next token is a bracket, this should be treated as a multiplication
             if (callee is NumberNode && Match(TokenType.OpenBracket))
                 // So we go to the bracket check below
+            {
                 isMultiplication = true;
+            }
             else
+            {
+                if (Match(TokenType.Number))
+                    throw new Exception("Unexpected number during implicit numerical multiplication");
+
                 return Match(TokenType.Identifier)
                     ? new BinaryNode(TokenType.Multiply, callee, Multiplication())
                     : callee;
+            }
         }
 
         if (Match(TokenType.Number, TokenType.Identifier)) return new CallNode(callee, new[] { Call() });
