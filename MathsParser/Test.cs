@@ -38,8 +38,7 @@ public class Test
             "2 * 2",
             "ln e³",
             "4(2)",
-
-            "clamp(4, 2, 3)", // TODO: 2 and 3 are not parsed
+            "clamp(4, 2, 3)",
             // TODO "3 2" should not be valid, but "3 pi" should be. related below
             // TODO "3(2)" should be parsed as "3 * 2", this should also work with "3(pi)" and better yet, "3pi"
         };

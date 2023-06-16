@@ -23,8 +23,7 @@ public class Parser
     {
         var token = lookahead;
 
-        // if (token is null) throw new Exception($"Unexpected end of input, expected {type}");
-
+        if (token.Type == TokenType.End) throw new Exception($"Unexpected end of input, expected {type}");
         if (token.Type != type) throw new Exception($"Unexpected token {token}, expected {type}");
 
         lookahead = tokeniser.Next();
@@ -160,7 +159,7 @@ public class Parser
         if (Match(TokenType.OpenBracket))
         {
             Eat(TokenType.OpenBracket);
-            var args = new[] { Expression() };
+            var args = new List<Node> { Expression() };
 
             if (isMultiplication && Match(TokenType.Comma))
                 throw new Exception("Unexpected comma in implicit bracketed multiplication");
@@ -168,7 +167,7 @@ public class Parser
             while (Match(TokenType.Comma))
             {
                 Eat(TokenType.Comma);
-                args.Append(Expression());
+                args.Add(Expression());
             }
 
             Eat(TokenType.CloseBracket);
@@ -176,7 +175,7 @@ public class Parser
             // return new CallNode(callee, args);
             return isMultiplication
                 ? new BinaryNode(TokenType.Multiply, callee, args[0])
-                : new CallNode(callee, args);
+                : new CallNode(callee, args.ToArray());
         }
 
         return callee;
