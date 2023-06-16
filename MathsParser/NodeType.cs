@@ -6,6 +6,5 @@ public enum NodeType
     Call,
     Number,
     Identifier,
-    Expression,
-    Abs // TODO: is this the best way to do this?
+    Expression
 }

@@ -94,8 +94,9 @@ public class Parser
             var expression = Expression();
             Eat(TokenType.Abs);
 
-            return new AbsNode(expression);
+            return new AbsCallNode(new[] { expression });
         }
+
 
         if (Match(TokenType.Number)) return new NumberNode(Eat(TokenType.Number));
 

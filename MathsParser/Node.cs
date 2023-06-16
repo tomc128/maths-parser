@@ -99,6 +99,23 @@ internal class CallNode : Node
     }
 }
 
+internal class AbsCallNode : CallNode
+{
+    public AbsCallNode(Node[] arguments) : base(new IdentifierNode("abs"), arguments)
+    {
+    }
+
+    public override NodeType Type => NodeType.Call;
+
+    public override string ToString()
+    {
+        var args = "";
+        foreach (var arg in Arguments) args += $"{arg}, ";
+        var argsString = args.Length > 0 ? args[..^2] : "";
+        return $"|{argsString}|";
+    }
+}
+
 internal class NumberNode : Node
 {
     public NumberNode(Token token)
@@ -126,6 +143,11 @@ internal class IdentifierNode : Node
     public IdentifierNode(Token token)
     {
         Value = token.Value;
+    }
+
+    public IdentifierNode(string value)
+    {
+        Value = value;
     }
 
     public override NodeType Type => NodeType.Identifier;
@@ -165,24 +187,3 @@ internal class ExpressionNode : Node
     }
 }
 
-internal class AbsNode : Node
-{
-    public AbsNode(Node expression)
-    {
-        Expression = expression;
-    }
-
-    public override NodeType Type => NodeType.Abs;
-
-    public Node Expression { get; }
-
-    public override string ToString()
-    {
-        return $"|{Expression}|";
-    }
-
-    public override double Evaluate(Environment environment = null)
-    {
-        return Math.Abs(Expression.Evaluate(environment));
-    }
-}

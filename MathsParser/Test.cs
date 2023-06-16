@@ -11,7 +11,8 @@ public class Test
             { "tan", Math.Tan },
             { "asin", Math.Asin },
             { "acos", Math.Acos },
-            { "atan", Math.Atan }
+            { "atan", Math.Atan },
+            { "abs", new Func<double, double>(Math.Abs) } // Must be double not decimal 
         };
         var variables = new Dictionary<string, double>
         {
@@ -30,7 +31,7 @@ public class Test
             "sin pi/2",
             "cos 0",
             "asin sin pi", // TODO: check
-            "|-1|"
+            "-2 * 3 + |-12 / 2|"
 
 
             // "sigma(\"2x + 1\", 1, 10)" // TODO: 1 and 10 do not show up in the output
