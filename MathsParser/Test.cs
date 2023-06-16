@@ -39,10 +39,17 @@ public class Test
             "ln e³",
             "4(2)",
             "clamp(4, 2, 3)",
-            // "3 2",
-            // TODO "3 2" should not be valid, but "3 pi" should be. related below
-            // TODO "3(2)" should be parsed as "3 * 2", this should also work with "3(pi)" and better yet, "3pi"
+            "2 * sin pi",
+            "2 + 3 * 4",
+            "abs -5",
+            "sqrt 16 + 8",
+            "tan(3pi/4)",
+            "log(100, 10)",
+            "2^3^2",
+            "3(2 + 1)",
+            "sqrt(9) + 1.5 * sin(pi/2)",
         };
+
 
         var compact = true;
 

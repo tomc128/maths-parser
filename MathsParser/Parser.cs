@@ -62,7 +62,8 @@ public class Parser
         var left = Exponentiation();
 
         while (Match(TokenType.Multiply, TokenType.Divide))
-            left = new BinaryNode(Eat(lookahead.Type).Type, left, Exponentiation());
+            left = new BinaryNode(Eat(lookahead.Type).Type, left,
+                Call()); // TODO: check if changing from Exponentiation -> Call is correct
 
         return left;
     }
