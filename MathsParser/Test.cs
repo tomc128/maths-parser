@@ -8,7 +8,10 @@ public class Test
         {
             { "sin", Math.Sin },
             { "cos", Math.Cos },
-            { "tan", Math.Tan }
+            { "tan", Math.Tan },
+            { "asin", Math.Asin },
+            { "acos", Math.Acos },
+            { "atan", Math.Atan }
         };
         var variables = new Dictionary<string, double>
         {
@@ -23,10 +26,12 @@ public class Test
         var inputs = new[]
         {
             "1+2.5",
-            "2.5+3",
-            "1.25*3",
-            "sin(2)",
-            "sin(pi)"
+            "sin(pi)",
+            "sin pi/2",
+            "cos 0",
+            "asin sin pi" // TODO: check
+
+
             // "sigma(\"2x + 1\", 1, 10)" // TODO: 1 and 10 do not show up in the output
             // TODO: allow for +1 to be a valid number
         };

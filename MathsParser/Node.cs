@@ -29,8 +29,8 @@ internal class BinaryNode : Node
 
     public override double Evaluate(Environment environment = null)
     {
-        var left = Left.Evaluate();
-        var right = Right.Evaluate();
+        var left = Left.Evaluate(environment);
+        var right = Right.Evaluate(environment);
 
         return Operator switch
         {
