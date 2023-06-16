@@ -14,7 +14,7 @@ public partial class Tokeniser
         index = 0;
     }
 
-    private Token Next()
+    public Token Next()
     {
         if (index >= input.Length) return new Token(TokenType.End, null);
 
@@ -29,20 +29,20 @@ public partial class Tokeniser
             _ when StringRegex().IsMatch(substring) =>
                 new Token(TokenType.String, StringRegex().Match(substring).Value),
             _ when AddRegex().IsMatch(substring) => new Token(TokenType.Add, "+"),
-            _ when SubractRegex().IsMatch(substring) => new Token(TokenType.Subtract, "-"),
+            _ when SubtractRegex().IsMatch(substring) => new Token(TokenType.Subtract, "-"),
             _ when MultiplyRegex().IsMatch(substring) => new Token(TokenType.Multiply, "*"),
             _ when DivideRegex().IsMatch(substring) => new Token(TokenType.Divide, "/"),
             _ when ExponentRegex().IsMatch(substring) => new Token(TokenType.Exponent, "^"),
             _ when OpenBracketRegex().IsMatch(substring) => new Token(TokenType.OpenBracket, "("),
             _ when CloseBracketRegex().IsMatch(substring) => new Token(TokenType.CloseBracket, ")"),
             _ when CommaRegex().IsMatch(substring) => new Token(TokenType.Comma, ","),
+            _ when char.IsWhiteSpace(substring[0]) => new Token(TokenType.Whitespace, substring[0].ToString()),
             _ => throw new Exception($"Unexpected character '{substring[0]}' at index {index}")
         };
 
-        // Skip blank tokens
-        if (token.Value == null) return Next();
+        if (token.Value != null) index += token.Value.Length;
 
-        index += token.Value.Length;
+        if (token.Type == TokenType.Whitespace) return Next();
 
         return token;
     }
@@ -61,7 +61,7 @@ public partial class Tokeniser
     private static partial Regex AddRegex();
 
     [GeneratedRegex("^-")]
-    private static partial Regex SubractRegex();
+    private static partial Regex SubtractRegex();
 
     [GeneratedRegex("^\\*")]
     private static partial Regex MultiplyRegex();

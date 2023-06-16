@@ -3,6 +3,7 @@
 public enum TokenType
 {
     End,
+    Whitespace,
     Number,
     Identifier,
     String,
@@ -13,5 +14,5 @@ public enum TokenType
     Exponent,
     OpenBracket,
     CloseBracket,
-    Comma,
+    Comma
 }
