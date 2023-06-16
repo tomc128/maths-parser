@@ -161,6 +161,7 @@ internal class IdentifierNode : Node
 
     public override double Evaluate(Environment environment = null)
     {
+        if (!environment.Variables.ContainsKey(Value)) throw new Exception($"Variable {Value} does not exist.");
         return environment.Variables[Value];
     }
 }
