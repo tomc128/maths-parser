@@ -77,8 +77,13 @@ public class Parser
             var next = Eat(lookahead.Type);
 
             if (next.Value == "^")
-                left = new BinaryNode(next.Type, left, Basic());
+            {
+                // Evaluate the right-hand side of the operator first, as exponentiation is right-associative
+                var right = Exponentiation();
+                left = new BinaryNode(next.Type, left, right);
+            }
             else
+            {
                 left = next.Value switch
                 {
                     "⁰" => new BinaryNode(next.Type, left, new NumberNode(0)),
@@ -93,6 +98,7 @@ public class Parser
                     "⁹" => new BinaryNode(next.Type, left, new NumberNode(9)),
                     _ => throw new Exception("Invalid exponent value"),
                 };
+            }
         }
 
         return left;

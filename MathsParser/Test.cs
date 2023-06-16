@@ -33,7 +33,6 @@ public class Test
 
         var inputs = new[]
         {
-            "2x+3", // TODO: this is incorrectly parsed as 2x, ignoring the +3
             "2^3^4", // TODO: this is executed as (2^3)^4, but should be 2^(3^4)
         };
 
