@@ -6,7 +6,7 @@ public partial class Tokeniser
 {
     private int index;
     private string input;
-    private List<string> tokens;
+    public List<string> tokens;
 
     public void Read(string input)
     {

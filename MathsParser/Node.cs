@@ -34,3 +34,39 @@ internal class CallNode : Node
     public Node Function { get; }
     public Node[] Arguments { get; }
 }
+
+internal class NumberNode : Node
+{
+    public NumberNode(Token token)
+    {
+        Value = double.Parse(token.Value);
+    }
+
+    public override NodeType Type => NodeType.Number;
+
+    public double Value { get; }
+}
+
+internal class IdentifierNode : Node
+{
+    public IdentifierNode(Token token)
+    {
+        Value = token.Value;
+    }
+
+    public override NodeType Type => NodeType.Identifier;
+
+    public string Value { get; }
+}
+
+internal class ExpressionNode : Node
+{
+    public ExpressionNode(string expression)
+    {
+        Expression = expression;
+    }
+
+    public override NodeType Type => NodeType.Expression;
+
+    public string Expression { get; }
+}

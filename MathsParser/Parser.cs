@@ -75,7 +75,33 @@ public class Parser
         return left;
     }
 
-    private Node Basic();
+    private Node Basic()
+    {
+        if (Match(TokenType.OpenBracket))
+        {
+            Eat(TokenType.OpenBracket);
+            var expression = Expression();
+            Eat(TokenType.CloseBracket);
+
+            return expression;
+        }
+
+        if (Match(TokenType.Number)) return new NumberNode(Eat(TokenType.Number));
+
+        if (Match(TokenType.Identifier)) return new IdentifierNode(Eat(TokenType.Identifier));
+
+        if (Match(TokenType.String))
+        {
+            var expression = Eat(TokenType.String).Value?[1..^1];
+            if (expression is null) throw new Exception("String value is null");
+
+            new Parser().Read(expression);
+
+            return new ExpressionNode(expression);
+        }
+
+        throw new Exception($"Unexpected token {lookahead}");
+    }
 
     private Node Call()
     {
