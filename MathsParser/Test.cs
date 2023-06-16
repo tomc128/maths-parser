@@ -12,7 +12,7 @@ public class Test
             { "asin", Math.Asin },
             { "acos", Math.Acos },
             { "atan", Math.Atan },
-            { "abs", new Func<double, double>(Math.Abs) } // Must be double not decimal 
+            { "abs", new Func<double, double>(Math.Abs) } // Must be double not decimal
         };
         var variables = new Dictionary<string, double>
         {
@@ -26,14 +26,21 @@ public class Test
 
         var inputs = new[]
         {
-            "1+2.5",
-            "sin(pi)",
-            "sin pi/2",
-            "cos 0",
-            "asin sin pi", // TODO: check
-            "-2 * 3 + |-12 / 2|"
+            // "1+2.5",
+            // "sin(pi)",
+            // "sin pi/2",
+            // "cos 0",
+            // "asin sin pi", // TODO: check
+            // "-2 * 3 + |-12 / 2|",
+            "3 * pi",
+            "3pi"
 
 
+            // "3 2",
+            // "3x+4"
+
+            // TODO "3 2" should not be valid
+            // TODO "3(2)" should be parsed as "3 * 2", this should also work with "3(pi)" and better yet, "3pi"
             // "sigma(\"2x + 1\", 1, 10)" // TODO: 1 and 10 do not show up in the output
             // TODO: allow for +1 to be a valid number
         };

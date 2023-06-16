@@ -119,6 +119,8 @@ public class Parser
     {
         var callee = Multiplication();
 
+        if (callee is not IdentifierNode) return callee;
+
         if (Match(TokenType.Number, TokenType.Identifier)) return new CallNode(callee, new[] { Call() });
 
         if (Match(TokenType.OpenBracket))
