@@ -71,10 +71,10 @@ public partial class Tokeniser
     [GeneratedRegex("^\\^")]
     private static partial Regex ExponentRegex();
 
-    [GeneratedRegex("^\\(")]
+    [GeneratedRegex("^[\\(\\[\\{]")]
     private static partial Regex OpenBracketRegex();
 
-    [GeneratedRegex("^\\)")]
+    [GeneratedRegex("^[\\)\\]\\}]")]
     private static partial Regex CloseBracketRegex();
 
     [GeneratedRegex("^,")]
