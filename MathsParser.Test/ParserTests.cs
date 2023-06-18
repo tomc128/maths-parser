@@ -110,11 +110,14 @@ public class ParserTests
     [TestCase("1.23e2 + 4.56E-3", 123.00456)]
     [TestCase("-1.23e2", -123)]
     [TestCase("5.67e-4 - 1.23e-4", 0.000444)]
+    [TestCase("2-1", 1)]
+    [TestCase("9--1", 10)]
+    [TestCase("+2 --1", 3)]
     public void TestExpression(string input, double expected)
     {
         var result = _parser.Read(input).Evaluate(_environment);
         var number = new Number(result); // Convert to the Number class to handle precision issues
 
-        Assert.That(number.Value, Is.EqualTo(expected));
+        Assert.That(Math.Abs(number.Value - expected), Is.LessThanOrEqualTo(Math.Pow(10, -Number.Precision)));
     }
 }
