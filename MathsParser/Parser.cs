@@ -148,6 +148,15 @@ public class Parser
             return new AbsCallNode(new[] { expression });
         }
 
+        if (Match(TokenType.Subtract))
+        {
+            // Parse the next token as a negated number/identifier/expression
+            Eat(TokenType.Subtract);
+            var expression = Basic();
+
+            return new BinaryNode(TokenType.Multiply, new NumberNode(-1), expression);
+        }
+
 
         if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber))
         {
