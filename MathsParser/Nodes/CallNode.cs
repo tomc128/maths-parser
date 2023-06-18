@@ -1,6 +1,6 @@
 ﻿namespace MathsParser.Nodes;
 
-internal class CallNode : Node
+public class CallNode : Node
 {
     public CallNode(Node function, Node[] arguments)
     {

@@ -1,6 +1,6 @@
 ﻿namespace MathsParser.Nodes;
 
-internal class ExpressionNode : Node
+public class ExpressionNode : Node
 {
     public ExpressionNode(string expression)
     {

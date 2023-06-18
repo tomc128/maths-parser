@@ -1,6 +1,6 @@
 ﻿namespace MathsParser.Nodes;
 
-internal class AbsCallNode : CallNode
+public class AbsCallNode : CallNode
 {
     public AbsCallNode(Node[] arguments) : base(new IdentifierNode("abs"), arguments)
     {

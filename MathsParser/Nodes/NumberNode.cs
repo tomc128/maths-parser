@@ -1,10 +1,15 @@
 ﻿namespace MathsParser.Nodes;
 
-internal class NumberNode : Node
+public class NumberNode : Node
 {
     public NumberNode(Token token)
     {
         Value = double.Parse(token.Value);
+    }
+
+    public NumberNode(string value)
+    {
+        Value = double.Parse(value);
     }
 
     public NumberNode(double value)

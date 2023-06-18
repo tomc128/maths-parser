@@ -1,6 +1,6 @@
 ﻿namespace MathsParser.Nodes;
 
-internal class IdentifierNode : Node
+public class IdentifierNode : Node
 {
     public IdentifierNode(Token token)
     {

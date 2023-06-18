@@ -1,6 +1,6 @@
 ﻿namespace MathsParser.Nodes;
 
-internal class BinaryNode : Node
+public class BinaryNode : Node
 {
     public BinaryNode(TokenType @operator, Node left, Node right)
     {
@@ -32,7 +32,7 @@ internal class BinaryNode : Node
             TokenType.Multiply => left * right,
             TokenType.Divide => left / right,
             TokenType.Exponent => Math.Pow(left, right),
-            _ => throw new Exception($"Unexpected operator {Operator}")
+            _ => throw new Exception($"Unexpected operator {Operator}"),
         };
     }
 }
