@@ -33,7 +33,8 @@ public class Test
 
         var inputs = new[]
         {
-            "2x+2",
+            "2 + -x",
+            "+2x +3x +1",
         };
 
 

@@ -113,11 +113,13 @@ public class ParserTests
     [TestCase("2-1", 1)]
     [TestCase("9--1", 10)]
     [TestCase("+2 --1", 3)]
+    [TestCase("+2x +3y -1", 12)]
     public void TestExpression(string input, double expected)
     {
         var result = _parser.Read(input).Evaluate(_environment);
         var number = new Number(result); // Convert to the Number class to handle precision issues
 
-        Assert.That(Math.Abs(number.Value - expected), Is.LessThanOrEqualTo(Math.Pow(10, -Number.Precision)));
+        var delta = Math.Pow(10, -Number.Precision);
+        Assert.That(number.Value, Is.InRange(expected - delta, expected + delta));
     }
 }

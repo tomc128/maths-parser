@@ -69,7 +69,10 @@ public class Parser
                 var next = Eat(lookahead.Type);
                 var sign = next.Value[0];
                 var abs = next.Value[1..];
-                left = new BinaryNode(sign == '+' ? TokenType.Add : TokenType.Subtract, left, new NumberNode(abs));
+
+                var operation = sign == '+' ? TokenType.Add : TokenType.Subtract;
+                // If there is another token, do a Call, otherwise just return a NumberNode
+                left = new BinaryNode(operation, left, Match(TokenType.End) ? new NumberNode(abs) : Call());
             }
             else
             {
