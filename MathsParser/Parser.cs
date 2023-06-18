@@ -4,48 +4,48 @@ namespace MathsParser;
 
 public class Parser
 {
-    private readonly Tokeniser tokeniser;
-    private Token lookahead;
+    private readonly Tokeniser _tokeniser;
+    private Token _lookahead;
 
     public Parser()
     {
-        tokeniser = new Tokeniser();
+        _tokeniser = new Tokeniser();
     }
 
     public Node Read(string input)
     {
-        tokeniser.Read(input);
-        lookahead = tokeniser.Next();
+        _tokeniser.Read(input);
+        _lookahead = _tokeniser.Next();
         return Expression();
     }
 
     private Token Eat(TokenType type)
     {
-        var token = lookahead;
+        var token = _lookahead;
 
         if (token.Type == TokenType.End) throw new Exception($"Unexpected end of input, expected {type}");
         if (token.Type != type) throw new Exception($"Unexpected token {token}, expected {type}");
 
-        lookahead = tokeniser.Next();
+        _lookahead = _tokeniser.Next();
 
         return token;
     }
 
     private Token Eat(params TokenType[] types)
     {
-        var token = lookahead;
+        var token = _lookahead;
 
         if (token.Type == TokenType.End) throw new Exception($"Unexpected end of input, expected {string.Join(" or ", types)}");
         if (!types.Contains(token.Type)) throw new Exception($"Unexpected token {token}, expected {string.Join(" or ", types)}");
 
-        lookahead = tokeniser.Next();
+        _lookahead = _tokeniser.Next();
 
         return token;
     }
 
     private bool Match(TokenType type)
     {
-        if (lookahead.Type != type) return false;
+        if (_lookahead.Type != type) return false;
         return true;
     }
 
@@ -64,9 +64,9 @@ public class Parser
         var left = Call();
 
         while (Match(TokenType.Add, TokenType.Subtract, TokenType.SignedNumber))
-            if (lookahead.Type == TokenType.SignedNumber)
+            if (_lookahead.Type == TokenType.SignedNumber)
             {
-                var next = Eat(lookahead.Type);
+                var next = Eat(_lookahead.Type);
                 var sign = next.Value[0];
                 var abs = next.Value[1..];
 
@@ -76,7 +76,7 @@ public class Parser
             }
             else
             {
-                left = new BinaryNode(Eat(lookahead.Type).Type, left, Call());
+                left = new BinaryNode(Eat(_lookahead.Type).Type, left, Call());
             }
 
         return left;
@@ -87,7 +87,7 @@ public class Parser
         var left = Exponentiation();
 
         while (Match(TokenType.Multiply, TokenType.Divide))
-            left = new BinaryNode(Eat(lookahead.Type).Type, left, Call()); // TODO: check if changing from Exponentiation -> Call is correct
+            left = new BinaryNode(Eat(_lookahead.Type).Type, left, Call()); // TODO: check if changing from Exponentiation -> Call is correct
 
         return left;
     }
@@ -98,7 +98,7 @@ public class Parser
 
         while (Match(TokenType.Exponent))
         {
-            var next = Eat(lookahead.Type);
+            var next = Eat(_lookahead.Type);
 
             if (next.Value == "^")
             {
@@ -185,7 +185,7 @@ public class Parser
             return new ExpressionNode(expression);
         }
 
-        throw new Exception($"Unexpected token {lookahead}");
+        throw new Exception($"Unexpected token {_lookahead}");
     }
 
     private Node Call(Node? baseCallee = null)
