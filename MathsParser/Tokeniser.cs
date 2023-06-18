@@ -63,10 +63,10 @@ public partial class Tokeniser
     [GeneratedRegex("^-")]
     private static partial Regex SubtractRegex();
 
-    [GeneratedRegex(@"^\*")]
+    [GeneratedRegex(@"^\[*×]")]
     private static partial Regex MultiplyRegex();
 
-    [GeneratedRegex("^/")]
+    [GeneratedRegex("^[/÷]")]
     private static partial Regex DivideRegex();
 
     [GeneratedRegex(@"^[\^⁰¹²³⁴⁵⁶⁷⁸⁹]")]
