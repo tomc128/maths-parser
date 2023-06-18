@@ -34,6 +34,7 @@ public partial class Tokeniser
             _ when OpenBracketRegex().IsMatch(substring) => new Token(TokenType.OpenBracket, OpenBracketRegex().Match(substring).Value),
             _ when CloseBracketRegex().IsMatch(substring) => new Token(TokenType.CloseBracket, CloseBracketRegex().Match(substring).Value),
             _ when AbsRegex().IsMatch(substring) => new Token(TokenType.Abs, "|"),
+            _ when SqrtRegex().IsMatch(substring) => new Token(TokenType.Sqrt, "√"),
             _ when CommaRegex().IsMatch(substring) => new Token(TokenType.Comma, ","),
             _ when char.IsWhiteSpace(substring[0]) => new Token(TokenType.Whitespace, " "),
             _ => throw new Exception($"Unexpected character '{substring[0]}' at index {_index}"),
@@ -83,6 +84,9 @@ public partial class Tokeniser
 
     [GeneratedRegex(@"^\|")]
     private static partial Regex AbsRegex();
+
+    [GeneratedRegex(@"^√")]
+    private static partial Regex SqrtRegex();
 
     [GeneratedRegex("^,")]
     private static partial Regex CommaRegex();

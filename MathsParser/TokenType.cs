@@ -17,5 +17,6 @@ public enum TokenType
     OpenBracket,
     CloseBracket,
     Abs,
+    Sqrt,
     Comma,
 }

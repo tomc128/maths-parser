@@ -148,6 +148,16 @@ public class Parser
             return new AbsCallNode(new[] { expression });
         }
 
+        if (Match(TokenType.Sqrt))
+        {
+            Eat(TokenType.Sqrt);
+            var expression = Call();
+
+            // TODO: √100 * 2 should be interpreted as (√100) * 2, not √(100 * 2)
+
+            return new SqrtCallNode(new[] { expression });
+        }
+
 
         if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber))
         {
