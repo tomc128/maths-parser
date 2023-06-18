@@ -33,10 +33,13 @@ public class Test
 
         var inputs = new[]
         {
-            "2^3^4",
-            "4% * 50",
-            "50% * 4",
-            "0.5 * 20%",
+            // "2^3^4",
+            // "4% * 50",
+            // "50% * 4",
+            // "0.5 * 20%",
+            "2-1",
+            "+2-2",
+            "+2--1",
         };
 
 
@@ -45,13 +48,12 @@ public class Test
         foreach (var input in inputs)
         {
             var node = parser.Read(input);
+
+            Console.Write($"{input} -> {node}");
+
             var result = new Number(node.Evaluate(environment));
 
-            var output = compact
-                ? $"{input} -> {node} = {result.AsDecimal()} = {result}"
-                : $"{input} -> {node} [root:{node.Type}]\n= {result.AsDecimal()} = {result}\n";
-
-            Console.WriteLine(output);
+            Console.WriteLine(compact ? $" = {result.AsDecimal()} = {result}" : $" [root:{node.Type}]\n= {result.AsDecimal()} = {result}\n");
         }
     }
 }

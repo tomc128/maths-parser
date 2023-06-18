@@ -21,23 +21,17 @@ public partial class Tokeniser
 
         var token = substring switch
         {
-            _ when NumberRegex().IsMatch(substring) =>
-                new Token(TokenType.Number, NumberRegex().Match(substring).Value),
-            _ when IdentifierRegex().IsMatch(substring) =>
-                new Token(TokenType.Identifier, IdentifierRegex().Match(substring).Value),
-            _ when StringRegex().IsMatch(substring) =>
-                new Token(TokenType.String, StringRegex().Match(substring).Value),
+            _ when NumberRegex().IsMatch(substring) => new Token(TokenType.Number, NumberRegex().Match(substring).Value),
+            _ when IdentifierRegex().IsMatch(substring) => new Token(TokenType.Identifier, IdentifierRegex().Match(substring).Value),
+            _ when StringRegex().IsMatch(substring) => new Token(TokenType.String, StringRegex().Match(substring).Value),
             _ when AddRegex().IsMatch(substring) => new Token(TokenType.Add, "+"),
             _ when SubtractRegex().IsMatch(substring) => new Token(TokenType.Subtract, "-"),
             _ when MultiplyRegex().IsMatch(substring) => new Token(TokenType.Multiply, "*"),
             _ when DivideRegex().IsMatch(substring) => new Token(TokenType.Divide, "/"),
-            _ when ExponentRegex().IsMatch(substring) =>
-                new Token(TokenType.Exponent, ExponentRegex().Match(substring).Value),
+            _ when ExponentRegex().IsMatch(substring) => new Token(TokenType.Exponent, ExponentRegex().Match(substring).Value),
             _ when PercentRegex().IsMatch(substring) => new Token(TokenType.Percent, "%"),
-            _ when OpenBracketRegex().IsMatch(substring) => new Token(TokenType.OpenBracket,
-                OpenBracketRegex().Match(substring).Value),
-            _ when CloseBracketRegex().IsMatch(substring) => new Token(TokenType.CloseBracket,
-                CloseBracketRegex().Match(substring).Value),
+            _ when OpenBracketRegex().IsMatch(substring) => new Token(TokenType.OpenBracket, OpenBracketRegex().Match(substring).Value),
+            _ when CloseBracketRegex().IsMatch(substring) => new Token(TokenType.CloseBracket, CloseBracketRegex().Match(substring).Value),
             _ when AbsRegex().IsMatch(substring) => new Token(TokenType.Abs, "|"),
             _ when CommaRegex().IsMatch(substring) => new Token(TokenType.Comma, ","),
             _ when char.IsWhiteSpace(substring[0]) => new Token(TokenType.Whitespace, " "),
@@ -49,7 +43,7 @@ public partial class Tokeniser
         return token.Type == TokenType.Whitespace ? Next() : token;
     }
 
-    [GeneratedRegex(@"^-?\d+(?:\.\d+)?(?:[Ee][+-]?\d+(?:\.\d+)?)?")]
+    [GeneratedRegex(@"^[-+]?\d+(?:\.\d+)?(?:[Ee][+-]?\d+(?:\.\d+)?)?")]
     private static partial Regex NumberRegex();
 
     [GeneratedRegex(@"^[a-zA-Z_]\w*")]

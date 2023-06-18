@@ -1,8 +1,9 @@
-﻿using MathsParser.Nodes;
+﻿using System.Text.RegularExpressions;
+using MathsParser.Nodes;
 
 namespace MathsParser;
 
-public class Parser
+public partial class Parser
 {
     private readonly Tokeniser tokeniser;
     private Token lookahead;
@@ -62,8 +63,7 @@ public class Parser
         var left = Exponentiation();
 
         while (Match(TokenType.Multiply, TokenType.Divide))
-            left = new BinaryNode(Eat(lookahead.Type).Type, left,
-                Call()); // TODO: check if changing from Exponentiation -> Call is correct
+            left = new BinaryNode(Eat(lookahead.Type).Type, left, Call()); // TODO: check if changing from Exponentiation -> Call is correct
 
         return left;
     }
@@ -171,12 +171,20 @@ public class Parser
             }
             else
             {
-                if (Match(TokenType.Number))
-                    throw new Exception("Unexpected number during implicit numerical multiplication");
+                // An identifier next would indicate multiplication, like "2x" 
+                if (Match(TokenType.Identifier)) return new BinaryNode(TokenType.Multiply, callee, Multiplication());
 
-                return Match(TokenType.Identifier)
-                    ? new BinaryNode(TokenType.Multiply, callee, Multiplication())
-                    : callee;
+                // Anything but a number next would indicate the end of the expression
+                if (!Match(TokenType.Number)) return callee;
+
+                // The number must be signed at this point, which would indicate an addition/subtraction
+                if (!SignedNumberRegex().IsMatch(lookahead.Value)) throw new Exception("Unexpected number during implicit numerical multiplication");
+
+                // The next token is a number with a +/-, so it's an addition/subtraction instead of a multiplication
+                // Return either an addition or subtraction node
+                var next = Eat(TokenType.Number);
+                var sign = next.Value[0];
+                return new BinaryNode(sign == '+' ? TokenType.Add : TokenType.Subtract, callee, new NumberNode(next.Value[1..]));
             }
         }
 
@@ -199,11 +207,12 @@ public class Parser
             Eat(TokenType.CloseBracket);
 
             // return new CallNode(callee, args);
-            return isMultiplication
-                ? new BinaryNode(TokenType.Multiply, callee, args[0])
-                : new CallNode(callee, args.ToArray());
+            return isMultiplication ? new BinaryNode(TokenType.Multiply, callee, args[0]) : new CallNode(callee, args.ToArray());
         }
 
         return callee;
     }
+
+    [GeneratedRegex("^[+-]")]
+    private static partial Regex SignedNumberRegex();
 }
