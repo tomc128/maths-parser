@@ -1,9 +1,8 @@
-﻿using System.Text.RegularExpressions;
-using MathsParser.Nodes;
+﻿using MathsParser.Nodes;
 
 namespace MathsParser;
 
-public partial class Parser
+public class Parser
 {
     private readonly Tokeniser tokeniser;
     private Token lookahead;
@@ -64,8 +63,18 @@ public partial class Parser
     {
         var left = Call();
 
-        while (Match(TokenType.Add, TokenType.Subtract))
-            left = new BinaryNode(Eat(lookahead.Type).Type, left, Call());
+        while (Match(TokenType.Add, TokenType.Subtract, TokenType.SignedNumber))
+            if (lookahead.Type == TokenType.SignedNumber)
+            {
+                var next = Eat(lookahead.Type);
+                var sign = next.Value[0];
+                var abs = next.Value[1..];
+                left = new BinaryNode(sign == '+' ? TokenType.Add : TokenType.Subtract, left, new NumberNode(abs));
+            }
+            else
+            {
+                left = new BinaryNode(Eat(lookahead.Type).Type, left, Call());
+            }
 
         return left;
     }
@@ -188,7 +197,7 @@ public partial class Parser
 
                 // Anything but a signed number next would indicate the end of the expression
                 if (!Match(TokenType.SignedNumber)) return callee;
-                
+
                 // The next token is a number with a +/-, so it's an addition/subtraction instead of a multiplication
                 // Return either an addition or subtraction node
                 var next = Eat(TokenType.SignedNumber);
