@@ -32,6 +32,18 @@ public partial class Parser
         return token;
     }
 
+    private Token Eat(params TokenType[] types)
+    {
+        var token = lookahead;
+
+        if (token.Type == TokenType.End) throw new Exception($"Unexpected end of input, expected {string.Join(" or ", types)}");
+        if (!types.Contains(token.Type)) throw new Exception($"Unexpected token {token}, expected {string.Join(" or ", types)}");
+
+        lookahead = tokeniser.Next();
+
+        return token;
+    }
+
     private bool Match(TokenType type)
     {
         if (lookahead.Type != type) return false;
@@ -125,9 +137,9 @@ public partial class Parser
         }
 
 
-        if (Match(TokenType.Number))
+        if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber))
         {
-            var number = Eat(TokenType.Number);
+            var number = Eat(TokenType.UnsignedNumber, TokenType.SignedNumber);
 
             // check for percent
             if (Match(TokenType.Percent))
@@ -174,21 +186,18 @@ public partial class Parser
                 // An identifier next would indicate multiplication, like "2x" 
                 if (Match(TokenType.Identifier)) return new BinaryNode(TokenType.Multiply, callee, Multiplication());
 
-                // Anything but a number next would indicate the end of the expression
-                if (!Match(TokenType.Number)) return callee;
-
-                // The number must be signed at this point, which would indicate an addition/subtraction
-                if (!SignedNumberRegex().IsMatch(lookahead.Value)) throw new Exception("Unexpected number during implicit numerical multiplication");
-
+                // Anything but a signed number next would indicate the end of the expression
+                if (!Match(TokenType.SignedNumber)) return callee;
+                
                 // The next token is a number with a +/-, so it's an addition/subtraction instead of a multiplication
                 // Return either an addition or subtraction node
-                var next = Eat(TokenType.Number);
+                var next = Eat(TokenType.SignedNumber);
                 var sign = next.Value[0];
                 return new BinaryNode(sign == '+' ? TokenType.Add : TokenType.Subtract, callee, new NumberNode(next.Value[1..]));
             }
         }
 
-        if (Match(TokenType.Number, TokenType.Identifier)) return new CallNode(callee, new[] { Call() });
+        if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber, TokenType.Identifier)) return new CallNode(callee, new[] { Call() });
 
         if (Match(TokenType.OpenBracket))
         {
@@ -212,7 +221,4 @@ public partial class Parser
 
         return callee;
     }
-
-    [GeneratedRegex("^[+-]")]
-    private static partial Regex SignedNumberRegex();
 }

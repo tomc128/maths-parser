@@ -21,7 +21,8 @@ public partial class Tokeniser
 
         var token = substring switch
         {
-            _ when NumberRegex().IsMatch(substring) => new Token(TokenType.Number, NumberRegex().Match(substring).Value),
+            _ when UnsignedNumberRegex().IsMatch(substring) => new Token(TokenType.UnsignedNumber, UnsignedNumberRegex().Match(substring).Value),
+            _ when SignedNumberRegex().IsMatch(substring) => new Token(TokenType.SignedNumber, SignedNumberRegex().Match(substring).Value),
             _ when IdentifierRegex().IsMatch(substring) => new Token(TokenType.Identifier, IdentifierRegex().Match(substring).Value),
             _ when StringRegex().IsMatch(substring) => new Token(TokenType.String, StringRegex().Match(substring).Value),
             _ when AddRegex().IsMatch(substring) => new Token(TokenType.Add, "+"),
@@ -43,8 +44,12 @@ public partial class Tokeniser
         return token.Type == TokenType.Whitespace ? Next() : token;
     }
 
+    [GeneratedRegex(@"^\d+(?:\.\d+)?(?:[Ee][+-]?\d+(?:\.\d+)?)?")]
+    private static partial Regex UnsignedNumberRegex();
+
+
     [GeneratedRegex(@"^[-+]?\d+(?:\.\d+)?(?:[Ee][+-]?\d+(?:\.\d+)?)?")]
-    private static partial Regex NumberRegex();
+    private static partial Regex SignedNumberRegex();
 
     [GeneratedRegex(@"^[a-zA-Z_]\w*")]
     private static partial Regex IdentifierRegex();

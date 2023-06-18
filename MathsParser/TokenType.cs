@@ -4,7 +4,8 @@ public enum TokenType
 {
     End,
     Whitespace,
-    Number,
+    UnsignedNumber,
+    SignedNumber,
     Identifier,
     String,
     Add,
