@@ -151,7 +151,7 @@ public class Parser
         if (Match(TokenType.Sqrt))
         {
             Eat(TokenType.Sqrt);
-            var expression = Call();
+            var expression = Call(Exponentiation());
 
             // TODO: √100 * 2 should be interpreted as (√100) * 2, not √(100 * 2)
 
@@ -188,9 +188,9 @@ public class Parser
         throw new Exception($"Unexpected token {lookahead}");
     }
 
-    private Node Call()
+    private Node Call(Node? baseCallee = null)
     {
-        var callee = Multiplication();
+        var callee = baseCallee ?? Multiplication();
 
         var isMultiplication = false;
 
