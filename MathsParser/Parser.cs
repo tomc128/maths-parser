@@ -70,8 +70,7 @@ public class Parser
                 var abs = next.Value[1..];
 
                 var operation = sign == '+' ? TokenType.Add : TokenType.Subtract;
-                // If there is another token, do a Call, otherwise just return a NumberNode
-                left = new BinaryNode(operation, left, Match(TokenType.End) ? new NumberNode(abs) : Call(new NumberNode(next)));
+                left = Call(new BinaryNode(operation, left, new NumberNode(abs)));
             }
             else
             {
