@@ -71,7 +71,9 @@ public class Parser
 
                 var operation = sign == '+' ? TokenType.Add : TokenType.Subtract;
                 left = new BinaryNode(operation, left, Call(new NumberNode(abs)));
+                // TODO: fix incorrect order of operations, i.e. 1+1+1+1 parsed as ((1+1)+(1+1)) instead of (((1+1)+1)+1)
             }
+
             else
             {
                 left = new BinaryNode(Eat(_lookahead.Type).Type, left, Call());
