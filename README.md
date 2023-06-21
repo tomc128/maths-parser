@@ -19,4 +19,4 @@ This returns a `double` value. However, you may want to convert this into a `Num
 
 ### Use cases
 
-Maths Parser is the engine used in my *Calcu* bot for Discord. It allows users to perform calculations quickly and easily in a Discord server.
+Maths Parser is the engine used in my <a href="https://github.com/tomc128/calcu">*Calcu*</a> bot for Discord. It allows users to perform calculations quickly and easily in a Discord server.

@@ -21,10 +21,7 @@ public class Test
 
         var variables = new Dictionary<string, double>
         {
-            { "pi", Math.PI },
-            { "π", Math.PI },
-            { "e", Math.E },
-            { "x", 2 },
+            { "pi", Math.PI }, { "π", Math.PI }, { "e", Math.E }, { "x", 2 },
         };
 
         var environment = new Environment(functions, variables);
@@ -35,9 +32,10 @@ public class Test
         {
             // "2 + -x",
             // "+2x +3x +1",
-            "√2pi + 10",
-            "√100 * 2",
-            "√(100 * 2)",
+            // "√2pi + 10",
+            // "√100 * 2",
+            // "√(100 * 2)",
+            "1+2+3+4",
         };
 
 

@@ -45,8 +45,7 @@ public class Parser
 
     private bool Match(TokenType type)
     {
-        if (_lookahead.Type != type) return false;
-        return true;
+        return _lookahead.Type == type;
     }
 
     private bool Match(params TokenType[] types)
@@ -72,7 +71,7 @@ public class Parser
 
                 var operation = sign == '+' ? TokenType.Add : TokenType.Subtract;
                 // If there is another token, do a Call, otherwise just return a NumberNode
-                left = new BinaryNode(operation, left, Match(TokenType.End) ? new NumberNode(abs) : Call());
+                left = new BinaryNode(operation, left, Match(TokenType.End) ? new NumberNode(abs) : Call(new NumberNode(next)));
             }
             else
             {
@@ -158,7 +157,6 @@ public class Parser
             return new SqrtCallNode(new[] { expression });
         }
 
-
         if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber))
         {
             var number = Eat(TokenType.UnsignedNumber, TokenType.SignedNumber);
@@ -237,7 +235,6 @@ public class Parser
 
             Eat(TokenType.CloseBracket);
 
-            // return new CallNode(callee, args);
             return isMultiplication ? new BinaryNode(TokenType.Multiply, callee, args[0]) : new CallNode(callee, args.ToArray());
         }
 

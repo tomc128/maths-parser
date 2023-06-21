@@ -99,7 +99,7 @@ public class ParserTests
     [TestCase("2 * 3 - 4", 2)]
     [TestCase("(2 * 3) - 4", 2)]
     [TestCase("2 / 3 - 4", -3.333333333333333)]
-    [TestCase("(2 / 3) - 4", -3.666666666666667)]
+    [TestCase("(2 / 3) - 4", -3.333333333333333)]
     [TestCase("1.23e2", 123)]
     [TestCase("1.23e-2", 0.0123)]
     [TestCase("1.23E2", 123)]
@@ -114,6 +114,8 @@ public class ParserTests
     [TestCase("9--1", 10)]
     [TestCase("+2 --1", 3)]
     [TestCase("+2x +3y -1", 12)]
+    [TestCase("74 + 75 + 69 + 76 + 69 + 60", 423)]
+    [TestCase("74+75+69+76+69+60", 423)]
     public void TestExpression(string input, double expected)
     {
         var result = _parser.Read(input).Evaluate(_environment);
