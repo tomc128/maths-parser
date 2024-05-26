@@ -35,14 +35,10 @@ public class Test
 
         var inputs = new[]
         {
-            // "1-1-1-1", // should be -2
-            // "1 - 1 - 1 - 1" // should be -2
-            // "74+75+69+76+69+60",
-            // "((1-1)-1)-1", // should be -2
-            "2!",
-            "3!",
-            "4!",
-            "5!",
+            "sqrt(100) * 2 + 1",
+            "\u221a100 * 2 + 1",
+            "sin(2pi) * 2 + 1", // multiplication after function call is broken
+            "sin(2pi) + 2",
         };
 
         const bool compact = true;

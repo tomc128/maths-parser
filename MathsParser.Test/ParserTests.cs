@@ -122,6 +122,9 @@ public class ParserTests
     [TestCase("1-1-1-1", -2)]
     [TestCase("1 - 1 - 1 - 1", -2)]
     [TestCase("1-1-1", -1)]
+    [TestCase("sqrt(100) * 2", 20)]
+    [TestCase("sin (pi/2) * 2", 2)]
+    [TestCase("sin (pi/2) + 2", 3)]
     public void TestExpression(string input, double expected)
     {
         var result = _parser.Read(input).Evaluate(_environment);

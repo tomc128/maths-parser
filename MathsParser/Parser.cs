@@ -214,7 +214,7 @@ public class Parser
         }
 
         if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber, TokenType.Identifier))
-            return new CallNode(callee, new[] { Call() });
+            return new CallNode(callee, [Call()]);
 
         if (Match(TokenType.OpenBracket))
         {
