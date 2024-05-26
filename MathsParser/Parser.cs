@@ -108,7 +108,7 @@ public class Parser
                     "⁷" => new BinaryNode(next.Type, left, new NumberNode(7)),
                     "⁸" => new BinaryNode(next.Type, left, new NumberNode(8)),
                     "⁹" => new BinaryNode(next.Type, left, new NumberNode(9)),
-                    _ => throw new Exception("Invalid exponent value")
+                    _ => throw new Exception("Invalid exponent value"),
                 };
             }
         }
@@ -143,7 +143,7 @@ public class Parser
 
             // TODO: √100 * 2 should be interpreted as (√100) * 2, not √(100 * 2)
 
-            return new SqrtCallNode(new[] { expression });
+            return new SqrtCallNode([expression]);
         }
 
         if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber))
@@ -155,6 +155,12 @@ public class Parser
             {
                 Eat(TokenType.Percent);
                 return new BinaryNode(TokenType.Divide, new NumberNode(number), new NumberNode(100));
+            }
+
+            if (Match(TokenType.Factorial))
+            {
+                Eat(TokenType.Factorial);
+                return new FactorialCallNode([new NumberNode(number)]);
             }
 
             return new NumberNode(number);

@@ -14,6 +14,7 @@ public enum TokenType
     Divide,
     Exponent,
     Percent,
+    Factorial,
     OpenBracket,
     CloseBracket,
     Abs,

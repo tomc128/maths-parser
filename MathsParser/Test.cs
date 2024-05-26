@@ -17,6 +17,7 @@ public class Test
             { "clamp", new Func<double, double, double, double>(Math.Clamp) },
             { "log", new Func<double, double, double>(Math.Log) },
             { "ln", new Func<double, double>(x => Math.Log(x, Math.E)) },
+            { "factorial", CustomMath.Factorial },
         };
 
         var variables = new Dictionary<string, double>
@@ -36,8 +37,12 @@ public class Test
         {
             // "1-1-1-1", // should be -2
             // "1 - 1 - 1 - 1" // should be -2
-            "74+75+69+76+69+60",
+            // "74+75+69+76+69+60",
             // "((1-1)-1)-1", // should be -2
+            "2!",
+            "3!",
+            "4!",
+            "5!",
         };
 
         const bool compact = true;

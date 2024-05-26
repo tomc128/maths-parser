@@ -32,6 +32,7 @@ public partial class Tokeniser
             _ when DivideRegex().IsMatch(substring) => new Token(TokenType.Divide, "/"),
             _ when ExponentRegex().IsMatch(substring) => new Token(TokenType.Exponent, ExponentRegex().Match(substring).Value),
             _ when PercentRegex().IsMatch(substring) => new Token(TokenType.Percent, "%"),
+            _ when FactorialRegex().IsMatch(substring) => new Token(TokenType.Factorial, "!"),
             _ when OpenBracketRegex().IsMatch(substring) => new Token(TokenType.OpenBracket, OpenBracketRegex().Match(substring).Value),
             _ when CloseBracketRegex().IsMatch(substring) => new Token(TokenType.CloseBracket, CloseBracketRegex().Match(substring).Value),
             _ when AbsRegex().IsMatch(substring) => new Token(TokenType.Abs, "|"),
@@ -88,6 +89,9 @@ public partial class Tokeniser
 
     [GeneratedRegex(@"^%")]
     private static partial Regex PercentRegex();
+
+    [GeneratedRegex("^!")]
+    private static partial Regex FactorialRegex();
 
     [GeneratedRegex(@"^[\(\[\{]")]
     private static partial Regex OpenBracketRegex();
