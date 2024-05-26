@@ -116,6 +116,12 @@ public class ParserTests
     [TestCase("+2x +3y -1", 12)]
     [TestCase("74 + 75 + 69 + 76 + 69 + 60", 423)]
     [TestCase("74+75+69+76+69+60", 423)]
+    [TestCase("2--1", 3)]
+    [TestCase("2- -1", 3)]
+    [TestCase("2 - -1", 3)]
+    [TestCase("1-1-1-1", -2)]
+    [TestCase("1 - 1 - 1 - 1", -2)]
+    [TestCase("1-1-1", -1)]
     public void TestExpression(string input, double expected)
     {
         var result = _parser.Read(input).Evaluate(_environment);

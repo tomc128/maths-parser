@@ -4,13 +4,8 @@ namespace MathsParser;
 
 public class Parser
 {
-    private readonly Tokeniser _tokeniser;
+    private readonly Tokeniser _tokeniser = new();
     private Token _lookahead;
-
-    public Parser()
-    {
-        _tokeniser = new Tokeniser();
-    }
 
     public Node Read(string input)
     {
@@ -35,28 +30,21 @@ public class Parser
     {
         var token = _lookahead;
 
-        if (token.Type == TokenType.End) throw new Exception($"Unexpected end of input, expected {string.Join(" or ", types)}");
-        if (!types.Contains(token.Type)) throw new Exception($"Unexpected token {token}, expected {string.Join(" or ", types)}");
+        if (token.Type == TokenType.End)
+            throw new Exception($"Unexpected end of input, expected {string.Join(" or ", types)}");
+        if (!types.Contains(token.Type))
+            throw new Exception($"Unexpected token {token}, expected {string.Join(" or ", types)}");
 
         _lookahead = _tokeniser.Next();
 
         return token;
     }
 
-    private bool Match(TokenType type)
-    {
-        return _lookahead.Type == type;
-    }
+    private bool Match(TokenType type) => _lookahead.Type == type;
 
-    private bool Match(params TokenType[] types)
-    {
-        return types.Any(Match);
-    }
+    private bool Match(params TokenType[] types) => types.Any(Match);
 
-    private Node Expression()
-    {
-        return Addition();
-    }
+    private Node Expression() => Addition();
 
     private Node Addition()
     {
@@ -73,7 +61,6 @@ public class Parser
                 left = new BinaryNode(operation, left, Call(new NumberNode(abs)));
                 // TODO: fix incorrect order of operations, i.e. 1+1+1+1 parsed as ((1+1)+(1+1)) instead of (((1+1)+1)+1)
             }
-
             else
             {
                 left = new BinaryNode(Eat(_lookahead.Type).Type, left, Call());
@@ -87,7 +74,8 @@ public class Parser
         var left = Exponentiation();
 
         while (Match(TokenType.Multiply, TokenType.Divide))
-            left = new BinaryNode(Eat(_lookahead.Type).Type, left, Call()); // TODO: check if changing from Exponentiation -> Call is correct
+            left = new BinaryNode(Eat(_lookahead.Type).Type, left,
+                Call()); // TODO: check if changing from Exponentiation -> Call is correct
 
         return left;
     }
@@ -120,7 +108,7 @@ public class Parser
                     "⁷" => new BinaryNode(next.Type, left, new NumberNode(7)),
                     "⁸" => new BinaryNode(next.Type, left, new NumberNode(8)),
                     "⁹" => new BinaryNode(next.Type, left, new NumberNode(9)),
-                    _ => throw new Exception("Invalid exponent value"),
+                    _ => throw new Exception("Invalid exponent value")
                 };
             }
         }
@@ -198,13 +186,13 @@ public class Parser
         {
             // However, if callee is a number and the next token is a bracket, this should be treated as a multiplication
             if (callee is NumberNode && Match(TokenType.OpenBracket))
-                // So we go to the bracket check below
             {
+                // So we go to the bracket check below
                 isMultiplication = true;
             }
             else
             {
-                // An identifier next would indicate multiplication, like "2x" 
+                // An identifier next would indicate multiplication, like "2x"
                 if (Match(TokenType.Identifier)) return new BinaryNode(TokenType.Multiply, callee, Multiplication());
 
                 // Anything but a signed number next would indicate the end of the expression
@@ -214,11 +202,13 @@ public class Parser
                 // Return either an addition or subtraction node
                 var next = Eat(TokenType.SignedNumber);
                 var sign = next.Value[0];
-                return new BinaryNode(sign == '+' ? TokenType.Add : TokenType.Subtract, callee, new NumberNode(next.Value[1..]));
+                var abs = next.Value[1..];
+                return new BinaryNode(sign == '+' ? TokenType.Add : TokenType.Subtract, callee, new NumberNode(abs));
             }
         }
 
-        if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber, TokenType.Identifier)) return new CallNode(callee, new[] { Call() });
+        if (Match(TokenType.UnsignedNumber, TokenType.SignedNumber, TokenType.Identifier))
+            return new CallNode(callee, new[] { Call() });
 
         if (Match(TokenType.OpenBracket))
         {
@@ -236,7 +226,9 @@ public class Parser
 
             Eat(TokenType.CloseBracket);
 
-            return isMultiplication ? new BinaryNode(TokenType.Multiply, callee, args[0]) : new CallNode(callee, args.ToArray());
+            return isMultiplication
+                ? new BinaryNode(TokenType.Multiply, callee, args[0])
+                : new CallNode(callee, args.ToArray());
         }
 
         return callee;

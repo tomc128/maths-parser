@@ -34,16 +34,13 @@ public class Test
 
         var inputs = new[]
         {
-            // "2 + -x",
-            // "+2x +3x +1",
-            // "√2pi + 10",
-            // "√100 * 2",
-            // "√(100 * 2)",
-            "+2x +3y -1", "1-1-1-1", "1+1+1+1",
+            // "1-1-1-1", // should be -2
+            // "1 - 1 - 1 - 1" // should be -2
+            "74+75+69+76+69+60",
+            // "((1-1)-1)-1", // should be -2
         };
 
-
-        var compact = true;
+        const bool compact = true;
 
         foreach (var input in inputs)
         {
@@ -53,7 +50,9 @@ public class Test
 
             var result = new Number(node.Evaluate(environment));
 
-            Console.WriteLine(compact ? $" = {result.AsDecimal()} = {result}" : $" [root:{node.Type}]\n= {result.AsDecimal()} = {result}\n");
+            Console.WriteLine(compact
+                ? $" = {result.AsDecimal()} = {result}"
+                : $" [root:{node.Type}]\n= {result.AsDecimal()} = {result}\n");
         }
     }
 }

@@ -6,6 +6,7 @@ public partial class Tokeniser
 {
     private int _index;
     private string _input;
+    private Token? _previousToken;
 
     public void Read(string input)
     {
@@ -40,8 +41,20 @@ public partial class Tokeniser
             _ => throw new Exception($"Unexpected character '{substring[0]}' at index {_index}"),
         };
 
-        if (token.Value != null) _index += token.Value.Length;
+        if (token.Value is not null) _index += token.Value.Length;
 
+        // If the previous token is a number or a closing bracket and the current token is a signed number, treat it as subtraction
+        if (_previousToken?.Type is TokenType.UnsignedNumber or TokenType.CloseBracket)
+            if (token.Type == TokenType.SignedNumber)
+            {
+                var sign = token.Value[0];
+                var abs = token.Value[1..];
+                token = new Token(sign == '+' ? TokenType.Add : TokenType.Subtract, sign.ToString());
+
+                _index -= abs.Length;
+            }
+
+        _previousToken = token;
         return token.Type == TokenType.Whitespace ? Next() : token;
     }
 
